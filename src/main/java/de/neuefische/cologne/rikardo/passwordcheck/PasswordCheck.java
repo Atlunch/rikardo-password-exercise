@@ -1,5 +1,6 @@
 package de.neuefische.cologne.rikardo.passwordcheck;
 
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,11 @@ public class PasswordCheck {
                 Scanner input_value2 = new Scanner(System.in);
                 String password = input_value2.nextLine();
                 System.out.println(checkPassword(password));
+                String[] failureMessages = new String[4];
+                failureMessages = showPasswordProperties(password);
+                for (int i = 0; i < failureMessages.length; i++) {
+                    System.out.println(failureMessages[i]);
+                }
                 break;
 
         }
@@ -45,6 +51,32 @@ public class PasswordCheck {
 
     public static boolean checkPassword(String password) {
         return checkPasswordLength(password) && checkIfPasswordIncludeNumber(password) && checkIfPasswordIncludeLowerUppercase(password) && checkPasswordSpecialChars(password);
+    }
+
+    public static String[] showPasswordProperties(String password) {
+        String[] failureMessages = new String[4];
+        if (checkPasswordLength(password)) {
+            failureMessages[0] = "Richtig: Passwort enthält 10 oder mehr Zeichen.";
+        } else {
+            failureMessages[0] = "Falsch: Passwort enthält weniger als 10 Zeichen.";
+        }
+        if (checkIfPasswordIncludeNumber(password)) {
+            failureMessages[1] = "Richtig: Passwort enthält mind. eine Zahl.";
+        } else {
+            failureMessages[1] = "Falsch: Passwort enthält keine Zahl.";
+        }
+        if (checkIfPasswordIncludeLowerUppercase(password)) {
+            failureMessages[2] = "Richtig: Passwort enthält sowohl kleine als auch große Buchstaben.";
+        } else {
+            failureMessages[2] = "Falsch: Passwort enthält entweder nur kleine oder nur große Buchstaben.";
+        }
+        if (checkPasswordSpecialChars(password)) {
+            failureMessages[3] = "Richtig: Passwort enthält keine Sonderzeichen.";
+        } else {
+            failureMessages[3] = "Falsch: Passwort enthält Sonderzeichen.";
+        }
+
+        return failureMessages;
     }
 
 
