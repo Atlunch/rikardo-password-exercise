@@ -2,6 +2,8 @@ package de.neuefische.cologne.rikardo.passwordcheck;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,10 +64,12 @@ class PasswordCheckTest {
         assertFalse(result);
     }
 
+    //Check if Password Include Special Chars
+
     @Test
     @DisplayName("Das Passwort enthält Sonderzeichen")
     public void testcheckPasswordSpecialCharsTrue(){
-        String password = "AAAAAAAAA?!";
+        String password = "AAAAAAAAAAA";
         boolean result = PasswordCheck.checkPasswordSpecialChars(password);
         assertTrue(result);
     }
@@ -73,8 +77,26 @@ class PasswordCheckTest {
     @Test
     @DisplayName("Das Passwort enthält keine Sonderzeichen")
     public void testcheckPasswordSpecialCharsFalse(){
-        String password = "AAAAAAAAAAA";
+        String password = ".;AAAAAAAAA";
         boolean result = PasswordCheck.checkPasswordSpecialChars(password);
+        assertFalse(result);
+    }
+
+    //Check password
+
+    @Test
+    @DisplayName("Das Passwort ist korrekt")
+    public void testcheckPasswordTrue(){
+        String password = "a8sSHJeks821Sfsd";
+        boolean result = PasswordCheck.checkPassword(password);
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("Das Passwort ist korrekt")
+    public void testcheckPasswordFalse(){
+        String password = "a8sSsa";
+        boolean result = PasswordCheck.checkPassword(password);
         assertFalse(result);
     }
 
